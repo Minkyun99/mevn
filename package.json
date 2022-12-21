@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "dependencies": {
     "express": "^4.18.2",
     "http": "^0.0.1-security",
@@ -7,3 +8,19 @@
     "pm2": "^5.2.2"
   }
 }
+=======
+  "name": "mevn",
+  "version": "1.0.0",
+  "description": "시작한다 긴장된다.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test2" : "console.log('단축경로지정')"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fxjs": "^0.21.3"
+  }
+}
+>>>>>>> e65e89bac525d843dc33a287dbb48cfb7ed78a96
