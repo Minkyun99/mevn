@@ -7,7 +7,11 @@
   <h1 v-if="status">제가 보이나요?</h1>
   <button v-on:click="status=true">보이게 할게요.</button>
   <button v-on:click="status=false">숨길게요.</button>
-
+  <button v-on:click="status=!status">보숨안보</button>
+  <hr>
+  <input type="text" v-model="inData" v-on:keyup="func(inData+'적고 손뗌.')">
+  <input type="text" v-model="inData" v-on:keyup.enter="func(inData+'엔터침.')">
+  <h2>{{ inData }}</h2>
  </div>
 </template>
 
@@ -18,17 +22,23 @@ export default {
     return{
       vname: '홍길동',
       age : 20,
-      status: true
+      status: true,
+      inData:''
     }
   },
+
   methods:{
     func : function(text){
       alert(text)
     }
+
   }
+ 
 }
 </script>
 
 <style>
-
+  button{
+    margin: 0 10px;
+  }
 </style>
