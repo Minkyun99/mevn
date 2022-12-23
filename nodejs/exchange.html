@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./p083/환율조회용.js"></script>
+    <script>
+        /*달러(1달러) ->원화(1300원)*/
+        document.addEventListener('DOMContentLoaded', ()=>{
+        const h1 = document.createElement('h1')
+        const won_input = document.createElement('input')
+        const button = document.createElement('button')
+        const doller_calc = document.createElement('h1')
+
+        document.body.append(h1, won_input, button, doller_calc)
+
+        h1.innerHTML = '환율 계산기'
+        button.innerHTML = '계산하기'
+
+        let save
+        value().then(mydata=>{
+            console.log('환율정보읽음')
+            alert(`환율정보가 ${mydata}원으로 갱신되었습니다.`)
+            doller_calc.innerHTML = `환율정보가 ${mydata}원으로 갱신되었습니다.`
+            save = mydata
+        })
+
+        let won
+        won_input.addEventListener('keyup',()=>{
+            won = Number(won_input.value)
+        })
+
+        button.addEventListener('click', ()=>{
+            console.log(won)
+            if(isNaN(won)){
+                doller_calc.innerHTML = '금액을 입력해주세요.'
+                return  //조기리턴
+            }
+
+            doller_calc.innerHTML = `달러에 ${(won*save).toLocaleString('ko-KR')}원`
+
+            const url = 'https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD'
+
+            fetch(url)
+            .then((response)=>{return response.json()})
+            .then(data=>{
+                let calc = data[0].basePrice*won
+                console.log(calc.toLocaleString('ko-KR') +'원')
+                doller_calc.innerHTML = calc.toLocaleString('ko-KR') +'원'
+            })
+
+        })
+    })
+
+
+        
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

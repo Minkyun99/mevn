@@ -13,11 +13,17 @@ console.log(_path)
 //     next()
 // })
 
-app.get('/', (res,req)=>{
-    res.send('dkdkddidisjlfajas')
-})
+// app.get('/', (res,req)=>{
+//     res.send('dkdkddidisjlfajas')
+// })
+// app.get('/',(req, res) =>{
+//     res.send('get됨')
+//   })
+// app.get('/hi', (req, res) =>{
+//     res.send('hi됨')
+//   })
 
-app.use('/dist', exp.static(_path))
+app.use('/', exp.static(_path))
 app.use(logger('tiny'))
 //커스텀 미들웨어
 
