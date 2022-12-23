@@ -2,6 +2,12 @@
  <div>
   <h1>안녕하세요.{{ vname }}반갑습니다.{{ age }}살 입니까?</h1>
   <button @click="func('안녕 팝업이야.')">버튼</button>
+  <button @ablclick="func('안녕 또 팝업이야')">더블클릭버튼</button>
+  <hr>
+  <h1 v-if="status">제가 보이나요?</h1>
+  <button v-on:click="status=true">보이게 할게요.</button>
+  <button v-on:click="status=false">숨길게요.</button>
+
  </div>
 </template>
 
@@ -11,7 +17,8 @@ export default {
   data(){
     return{
       vname: '홍길동',
-      age : 20
+      age : 20,
+      status: true
     }
   },
   methods:{
