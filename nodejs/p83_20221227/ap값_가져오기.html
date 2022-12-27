@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        document.addEventListener('DOMContentLoaded',()=>{
+            const container = document.createElement('div')
+            const date = document.createElement('h2')
+            const time = document.createElement('h2')
+            const bitcoin = document.createElement('h1')
+            const reset = document.createElement('button')
+            const high_value = document.createElement('h3')
+            const low_value = document.createElement('h3')
+            const container2 = document.createElement('div')
+            const increase = document.createElement('h2')
+            const decrease = document.createElement('h2')
+            
+            reset.innerHTML = '최고가/최저가'
+            
+            Object.assign(bitcoin, {
+                id : 'bitcoin'
+            })
+            document.body.append(container, container2)
+            container.append(date, time, bitcoin, reset, high_value, low_value)
+            container2.append(increase, decrease)
+            
+            /*style*/
+            high_value.style.color = 'blue'
+            low_value.style.color = 'red'
+            
+            /*bitcoin 가격 로컬스토리지 저장 선언*/
+            let bitcoin_data
+            
+            /*localstorage 값 비교*/
+            const bitcoin_new = localStorage.getItem('save')
+            
+            
+            /*비트코인 현재 시세 불러오기*/
+            const url =
+            'https://api.upbit.com/v1/ticker?markets=KRW-BTC'
+            
+            fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                bitcoin_data = data[0].trade_price
+                date.innerHTML = `거래일자 : ${data[0].trade_date}`
+                time.innerHTML = `거래시간 : ${data[0].trade_time}`
+                bitcoin.textContent = `${bitcoin_data.toLocaleString('ko-KR')} 원`
+                localStorage.setItem('save', bitcoin_data)
+                
+                /*비트코인 가격정보 비교*/  //데이터를 저장한 다음 바로 실행해야 함.
+                console.log(bitcoin_data)
+                if(bitcoin_data>bitcoin_new){alert('비트코인이 하락하였습니다.')
+                decrease.textContent = `${(bitcoin_data-bitcoin_new)/bitcoin_new*100}% 하락하였습니다.`
+                }
+                else if(bitcoin_data=bitcoin_new){alert('비트코인의 변화가 없습니다.')
+                }
+                if(bitcoin_data<bitcoin_new){alert('비트코인이 상승하였습니다.')
+                increase.textContent = `${(bitcoin_new-bitcoin_data)/bitcoin_new*100}% 상승하였습니다.`}
+
+            let high_price
+            let low_price
+            reset.addEventListener('click',()=>{
+                fetch(url)
+                .then((response) => response.json())
+                .then((mydata) => {
+                high_price = mydata[0].high_price
+                low_price = mydata[0].low_price
+
+                console.log(high_price)
+                console.log(low_price)
+                high_value.textContent = `최고가 : ${high_price.toLocaleString('ko-KR')} 원`
+                low_value.textContent = `최저가 : ${low_price.toLocaleString('ko-KR')} 원`
+            })
+            
+        })
+
+    })
+})
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
+
