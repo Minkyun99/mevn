@@ -4,15 +4,15 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier/@typescript-eslint',
-    'plugin:prettier/recommended',
+    'plugin:prettier/recommended'
   ],
   plugins: ['@typescript-eslint', 'react'],
   rules: {
     'prettier/prettier': [
       'error',
       {
-        endOfLine: 'auto',
-      },
-    ],
-  },
-};
+        endOfLine: 'auto'
+      }
+    ]
+  }
+}
