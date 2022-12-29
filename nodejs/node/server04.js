@@ -17,7 +17,7 @@ app.use(
   })
 )
 
-app.post('/info', function (res, req) {
+app.post('/info', function (req, res) {
   const id = req.body.iid
   const password = req.body.ipw
   const data = req.body.idata
