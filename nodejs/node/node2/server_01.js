@@ -24,12 +24,12 @@ app.use(
 // let inform = {}
 
 app.post('/text', function (req, res) {
-  fs.stat(_path + 'info.txt', (err, stats) => {
-    const name = req.body.iname
-    const age = req.body.iage
-    const data = req.body.idata
-    const file = 'info'
+  const name = req.body.iname
+  const age = req.body.iage
+  const data = req.body.idata
+  const file = 'info'
 
+  fs.stat(_path + name + '.txt', (err, stats) => {
     console.log(stats ? '파일이 존재합니다.' : '파일이 없습니다.')
 
     if (stats) {
