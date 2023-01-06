@@ -6,7 +6,7 @@ const { info } = require('console')
 
 const app = express()
 const port = 3000
-const _path = path.join(__dirname, '/')
+const _path = path.join(__dirname, '/dist')
 console.log(_path)
 
 app.use('/', express.static(_path))
@@ -35,7 +35,7 @@ app.post('/text', function (req, res) {
     if (stats) {
       ;`<script>alert(${name}.txt 파일이 이미 존재합니다.)</script>`
       fs.writeFile(
-        _path + file + '.txt',
+        _path + name + '.txt',
         `이름 : ${name} 나이 : ${age} 특이사항 : ${data}`,
         (e) => {
           if (e) {
