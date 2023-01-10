@@ -1,10 +1,24 @@
+require('dotenv').config()
 const request = require('request')
+const { XMLParser, XMLBuilder, XMLValidator } = require('fast-xml-parser')
+const parser = new XMLParser()
 
-const url = process.env.Aurl
+const key = process.env.pkey
+
+let busstopname
+let busstopid
+
+const url =
+  'http://apis.data.go.kr/6260000/BusanBIMS/stopArrByBstopid?serviceKey=' +
+  key +
+  '&pageNo=1&numOfRows=100&bstopnm=' +
+  busstopname +
+  '&arsno=' +
+  busstopid
 
 request(url, (e, res, body) => {
-  const rst = JSON.parse(body)
-  console.log(rst)
-  const _ = rst.getJobOpnngInfo.body.items.item[1]
+  const body = parser.parse.body
+  console.log(body)
+  const _ = body.items.item
   console.log()
 })

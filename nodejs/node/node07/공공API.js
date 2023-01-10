@@ -1,12 +1,18 @@
+require('dotenv').config()
 const request = require('request')
 
-// const url = process.env.Aurl
+const key = process.env.pkey
 
 const url =
-  'http://apis.data.go.kr/6260000/AirQualityInfoService/getAirQualityInfoClassifiedByStation?serviceKey=alQPO%2BQUh%2BiA5wsYXuLyIP5he2drBx2W0NE4KyX44tDE%2BzlLnN85L3vHBFtVeKZitPlfPXvBSuMaXDIoTzMQpQ%3D%3D&pageNo=1&numOfRows=100&resultType=json'
+  'http://apis.data.go.kr/6260000/AirQualityInfoService/getAirQualityInfoClassifiedByStation?serviceKey=' +
+  key +
+  '&pageNo=1&numOfRows=100&resultType=json'
+//개인 인증키 보안을 위하여 env파일에 나의 키값을 따로 보관함.
 
 request(url, (e, res, body) => {
   const rst = JSON.parse(body)
-  const _ = rst.getAirQualityInfoClassifiedByStation.body.items.item[1]
-  console.log()
+  const _ = rst.getAirQualityInfoClassifiedByStation.body.items.item[3]
+  console.log(
+    `[${_.site}\n일산화탄소:${_.co}\n 오존:${_.o3}\n 초미세먼지:${_.pm25} \n 미세먼지:${_.pm10}\n]`
+  )
 })
