@@ -1,18 +1,26 @@
 <template>
+  <div class="radio_check">
+    <input
+      type="radio"
+      name="list"
+      value="1"
+      @click="korea = $event.target.checked"
+    />한국어 <input type="radio" name="list" value="2" />영어
+  </div>
   <div class="about">
-    <div>
-      <input type="radio" name="list" value="1" />한국어
-      <input type="radio" name="list" value="2" />영어
+    <div class="container">
+      <textarea
+        type="text"
+        cols="30"
+        rows="10"
+        v-model="language"
+        @keyup.enter="translator()"
+      >
+      </textarea>
+      <input class="submit" type="submit" @click="translator()" />
     </div>
     <textarea
-      type="text"
-      cols="30"
-      rows="10"
-      v-model="language"
-      @keyup.enter="translator()"
-    >
-    </textarea>
-    <textarea
+      class="translate_box"
       disabled
       v-model="translate"
       name=""
@@ -20,7 +28,6 @@
       cols="30"
       rows="10"
     ></textarea>
-    <input type="submit" @click="translator()" />
   </div>
 </template>
 
@@ -32,7 +39,7 @@ export default {
     return {
       language: '',
       translate: '',
-      Arr: []
+      korea: true
     }
   },
 
@@ -48,18 +55,57 @@ export default {
       this.language = ''
     },
 
-    ko: function () {
-      this.language = this.only_ko()
-    },
-
     only_ko: function () {
-      if (this.language !== [가 - 힣0 - 9]) {
+      if (this.korea) {
         alert('한글만 입력하세요.')
-        this.language = this.language.replace(this.pattern, '')
+        const pattern = [가 - 힣0 - 9]
+        this.language = this.language.replace(pattern, '')
       }
     }
   }
 }
 </script>
 
-<style></style>
+<style>
+.radio_check {
+  margin-bottom: 10px;
+}
+
+.about {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  /* width: 100%; */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.translate_box {
+  position: relative;
+  top: -25px;
+  margin-left: 10px;
+  background-color: white;
+}
+
+.submit {
+  width: 100px;
+  height: 30px;
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  color: antiquewhite;
+  background-color: rgb(153, 209, 148);
+}
+
+.submit:hover {
+  background-color: rgb(42, 182, 0);
+}
+</style>
