@@ -20,8 +20,112 @@ bot.onText(/\/echo (.+)/, (msg, match) => {
   bot.sendMessage(chatId, resp)
 })
 
+bot.onText(/\/translate (.+)/, (msg, match) => {
+  const chatId = msg.chat.id
+  const trans = msg.text
+
+  const NAVER_CLIENT_ID = process.env.ID
+  const NAVER_CLIENT_SECRET = process.env.SECRET
+
+  let api_url = 'https://openapi.naver.com/v1/papago/n2mt'
+
+  const request = require('request')
+  require('dotenv').config()
+
+  let options = {
+    url: api_url,
+    form: { source: 'ko', target: 'en', text: trans },
+    headers: {
+      'X-Naver-Client-Id': NAVER_CLIENT_ID,
+      'X-Naver-Client-Secret': NAVER_CLIENT_SECRET
+    }
+  }
+  request.post(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log(body)
+      const rst = JSON.parse(body)
+      let match = rst.message.result.translatedText
+
+      bot.sendMessage(chatId, match)
+    } else {
+      console.log('error = ' + response.statusCode)
+    }
+  })
+})
+
 bot.on('message', (msg) => {
   const chatId = msg.chat.id
+
+  if (msg.text == '로또') {
+    const axios = require('axios') //리퀘스트용도로 사용
+    const cheerio = require('cheerio') //선택자로 필요한 정보만 추출
+
+    const url =
+      'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EB%A1%9C%EB%98%90+%EC%A0%80%EB%B2%88%EC%A3%BC+%EB%8B%B9%EC%B2%A8+%EB%B2%88%ED%98%B8'
+
+    let lotto = []
+    let bonus
+
+    axios.get(url).then((res) => {
+      let $ = cheerio.load(res.data)
+
+      $('.winning_number>span').each(function () {
+        lotto.push($(this).text())
+      })
+
+      bonus = $('.bonus_number>span').text()
+
+      const A = Math.floor(Math.random() * 45) + 1
+      const B = Math.floor(Math.random() * 45) + 1
+
+      if (A !== B) {
+        bot.sendMessage(
+          chatId,
+          `지난 주 당첨 번호는 [${lotto}], 보너스 번호는 ${bonus}입니다. 이번 주 추천 번호는 ${A}와 ${B} 입니다.`
+        )
+      } else {
+        return
+      }
+    })
+  }
+
+  if (msg.text == '식단') {
+    const axios = require('axios') //리퀘스트용도로 사용
+    const cheerio = require('cheerio') //선택자로 필요한 정보만 추출
+
+    const url =
+      'https://www.pusan.ac.kr/kor/CMS/MenuMgr/menuListOnBuilding.do?mCode=MN202'
+
+    let menu = [],
+      day = [],
+      date = []
+
+    axios.get(url).then((res) => {
+      let $ = cheerio.load(res.data)
+      $('.day').each(function () {
+        day.push($(this).text())
+      })
+      $('.date').each(function () {
+        date.push($(this).text())
+      })
+
+      let today = new Date()
+      let days = today.getDay()
+
+      for (i = 0; i <= 6; i++) {
+        if (days - 1 == i) {
+          $('tbody')
+            .children('tr:eq(1)')
+            .children(`td:eq(${i})`)
+            .each(function () {
+              menu.push($(this).text())
+            })
+          bot.sendMessage(chatId, `오늘의 메뉴는 [${menu}] 입니다.`)
+        }
+      }
+    })
+  }
+
   if (msg.text == '안녕하세요') {
     bot.sendMessage(chatId, '반갑습니다.')
   }
@@ -66,5 +170,47 @@ bot.on('message', (msg) => {
 
     let link = 'https://loawa.com/char/%EB%8D%B0%EC%8A%A4%EB%85%B8%ED%8A%B821'
     bot.sendMessage(chatId, `${image} 아래 링크를 클릭해보세요   ${link}`)
+  }
+})
+
+let status = false
+
+bot.on('message', (msg) => {
+  if (msg.text == '번역해') {
+    status = true
+  }
+  if (msg.text == '번역하지마') {
+    status = false
+  }
+  if (status) {
+    const chatId = msg.chat.id
+    const trans = msg.text
+
+    const NAVER_CLIENT_ID = process.env.ID
+    const NAVER_CLIENT_SECRET = process.env.SECRET
+
+    let api_url = 'https://openapi.naver.com/v1/papago/n2mt'
+
+    const request = require('request')
+    require('dotenv').config()
+
+    let options = {
+      url: api_url,
+      form: { source: 'ko', target: 'en', text: trans },
+      headers: {
+        'X-Naver-Client-Id': NAVER_CLIENT_ID,
+        'X-Naver-Client-Secret': NAVER_CLIENT_SECRET
+      }
+    }
+    request.post(options, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        const rst = JSON.parse(body)
+        let match = rst.message.result.translatedText
+
+        bot.sendMessage(chatId, match)
+      } else {
+        console.log('error = ' + response.statusCode)
+      }
+    })
   }
 })
