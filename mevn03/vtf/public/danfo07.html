@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tensorflowjs</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/danfojs@1.1.2/lib/bundle.js"></script>
+  </head>
+  <body>
+    <script>
+      let arr_data = [
+        ['val1', 10, 1.2, 'test'],
+        ['val2', 30, 31.3, 'train'],
+        ['val3', 30, 4.14, 'test'],
+        ['val4', 40, 55.3, 'train']
+      ]
+
+      let df = new dfd.DataFrame(arr_data, {
+        index: ['A1', 'A2', 'A3', 'A4']
+      })
+      df.print()
+      df.head(2).print()
+      df.tail(2).print()
+      df.ctypes.print()
+    </script>
+  </body>
+</html>

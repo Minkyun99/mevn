@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tensorflowjs</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/danfojs@1.1.2/lib/bundle.js"></script>
+  </head>
+  <body>
+    <div id="s_table"></div>
+    <div id="s_line"></div>
+    <div id="'d_table"></div>
+    <div id="d_line"></div>
+    <script>
+      const s = new dfd.Series([20, 21, 22, 23])
+      s.print()
+      s.describe().print()
+      s.plot('s_table').table()
+      s.plot('s_line').line()
+    </script>
+  </body>
+</html>

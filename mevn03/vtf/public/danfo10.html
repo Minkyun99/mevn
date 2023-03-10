@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tensorflowjs</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/danfojs@1.1.2/lib/bundle.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
+  <body>
+    <div id="d_table"></div>
+    <div id="d_line"></div>
+    <script>
+      dfd.readCSV('./data-1.csv').then((data) => {
+        // data.print()
+        // data.describe().print()
+        data.plot('d_table').table()
+        data.plot('d_line').line()
+        // console.log(data, data['온도'])
+        // data['온도'].print()
+
+        /*label of content*/
+        data.loc({ columns: ['온도', '판매량'] }).print()
+        data.loc({ rows: [1, 3] }, { columns: ['온도', '판매량'] }).print()
+
+        /*논리비교를 이용한 필터링*/
+        data.query(data['온도'].gt(20)).print()
+
+        data.query(data['온도'].ge(20)).print()
+      })
+    </script>
+  </body>
+</html>
